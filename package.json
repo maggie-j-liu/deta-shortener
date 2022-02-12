@@ -1,0 +1,23 @@
+{
+  "name": "shortener",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "register:guild": "node -r dotenv/config register/register_guild.js",
+    "register:global": "node -r dotenv/config register/register_global.js",
+    "unregister": "node -r dotenv/config register/unregister.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "deta": "^1.0.2",
+    "discord-interactions": "^2.4.1",
+    "express": "^4.17.2",
+    "nanoid": "^3.2.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0"
+  }
+}
