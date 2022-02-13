@@ -1,13 +1,12 @@
 const { Deta } = require("deta");
 const express = require("express");
-const { nanoid } = require("nanoid");
 const {
   verifyKeyMiddleware,
   InteractionType,
   InteractionResponseType,
 } = require("discord-interactions");
-const commands = require("./commands.js");
-const { getName, createShortLink } = require("./utils.js");
+const { getCommands } = require("./utils/getCommands.js");
+const commands = getCommands();
 
 const app = express();
 const linksRoute = express.Router();
@@ -38,66 +37,16 @@ app.post(
       });
     } else if (message.type === InteractionType.APPLICATION_COMMAND) {
       console.log(message);
-      switch (message.data.name.toLowerCase()) {
-        case getName(commands.HI_COMMAND):
-        case getName(commands.HI_COMMAND) + "-dev":
-          res.send({
-            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-            data: {
-              content: "hi",
-            },
-          });
-          break;
-        case getName(commands.ADD_LINK_COMMAND):
-        case getName(commands.ADD_LINK_COMMAND) + "-dev":
-          const response = await createShortLink({
-            url: message.data.options.find((opt) => opt.name === "url").value,
-          });
-          let content;
-          if (response.error) {
-            content = `Error: ${response.error}`;
-          } else {
-            content = `Linked ${response.url} to <https://src.ink/${response.slug}>`;
-          }
-          res.send({
-            type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-            data: {
-              content,
-            },
-          });
-          break;
+      const command = commands.find(
+        (c) =>
+          c.name === message.data.name.toLowerCase() ||
+          c.name + "-dev" === message.data.name.toLowerCase()
+      );
+      if (command) {
+        res.send(await command.execute(message));
       }
     }
   }
 );
-
-// linksRoute.post("/", async (req, res) => {
-//   if (req.body.slug) {
-//     try {
-//       await db.insert({
-//         key: req.body.slug,
-//         url: req.body.url,
-//       });
-//       res.send({ url: req.body.url, slug: req.body.slug });
-//       return;
-//     } catch (e) {
-//       res.status(400).send({ error: "Url already taken." });
-//       return;
-//     }
-//   }
-//   while (true) {
-//     let key = nanoid(6);
-//     try {
-//       await db.insert({
-//         key,
-//         url: req.body.url,
-//       });
-//       res.send({ url: req.body.url, slug: key });
-//       return;
-//     } catch (e) {}
-//   }
-// });
-
-// app.use("/add", linksRoute);
 
 module.exports = app;

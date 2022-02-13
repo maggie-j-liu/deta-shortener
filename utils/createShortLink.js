@@ -1,5 +1,3 @@
-const getName = (command) => command.name.toLowerCase();
-
 const createShortLink = async (body) => {
   const { nanoid } = require("nanoid");
   if (!body.url) {
@@ -32,7 +30,4 @@ const createShortLink = async (body) => {
   }
 };
 
-module.exports = {
-  getName,
-  createShortLink,
-};
+module.exports = createShortLink;

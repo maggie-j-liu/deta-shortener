@@ -1,8 +1,10 @@
+import { getCommandsData } from "../utils/getCommands.js";
 import { guildId } from "./config.js";
 import register from "./register.js";
-import commands from "../commands.js";
 
-for (const command of Object.values(commands)) {
+const commands = getCommandsData();
+
+for (const command of commands) {
   command.name += "-dev";
 }
 
