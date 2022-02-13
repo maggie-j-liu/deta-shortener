@@ -1,4 +1,5 @@
 const { InteractionResponseType } = require("discord-interactions");
+const getUserId = require("../utils/getUserId.js");
 
 module.exports = {
   name: "delete",
@@ -21,11 +22,28 @@ module.exports = {
     if (key.startsWith("/")) {
       key = key.substring(1);
     }
+    const link = await db.get(key);
+    if (link === null) {
+      return {
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: `The short link ${process.env.DOMAIN}/${key} doesn't exist.`,
+        },
+      };
+    }
+    if (link.userId !== getUserId(message)) {
+      return {
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: "You can only delete links that were created by you.",
+        },
+      };
+    }
     await db.delete(key);
     return {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: `Deleted ${process.env.DOMAIN}/${key}.`,
+        content: `Successfully deleted ${process.env.DOMAIN}/${key}.`,
       },
     };
   },

@@ -3,6 +3,7 @@ const {
   InteractionResponseFlags,
 } = require("discord-interactions");
 const createShortLink = require("../utils/createShortLink.js");
+const getUserId = require("../utils/getUserId.js");
 
 module.exports = {
   name: "shorten",
@@ -34,15 +35,17 @@ module.exports = {
         },
       };
     }
+    const userId = getUserId(message);
     const response = await createShortLink({
       url,
       slug: route,
+      userId,
     });
     let content;
     if (response.error) {
       content = `Error: ${response.error}`;
     } else {
-      content = `Linked ${response.url} to <${process.env.DOMAIN}/${response.slug}>`;
+      content = `Linked ${url} to <${process.env.DOMAIN}/${response.slug}>`;
     }
     return {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

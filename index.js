@@ -23,6 +23,12 @@ app.get("/:id*?", async (req, res) => {
     res.send("Not found");
     return;
   }
+  await db.update(
+    {
+      clicks: db.util.increment(1),
+    },
+    req.params.id
+  );
   res.redirect(307, item.url);
 });
 

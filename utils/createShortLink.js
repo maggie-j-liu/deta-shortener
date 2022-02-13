@@ -1,17 +1,19 @@
-const createShortLink = async (body) => {
+const createShortLink = async ({ url, slug, userId }) => {
   const { nanoid } = require("nanoid");
   const db = require("./database.js");
-  if (!body.url) {
+  if (!url) {
     return { error: "Must specify an url." };
   }
 
-  if (body.slug) {
+  if (slug) {
     try {
       await db.insert({
-        key: body.slug,
-        url: body.url,
+        key: slug,
+        url,
+        userId,
+        clicks: 0,
       });
-      return { url: body.url, slug: body.slug };
+      return { slug };
     } catch (e) {
       return { error: "Url already taken." };
     }
@@ -21,9 +23,11 @@ const createShortLink = async (body) => {
     try {
       await db.insert({
         key,
-        url: body.url,
+        url,
+        userId,
+        clicks: 0,
       });
-      return { url: body.url, slug: key };
+      return { slug: key };
     } catch (e) {}
   }
 };
