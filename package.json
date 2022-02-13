@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "register:guild": "node -r dotenv/config register/register_guild.js",
-    "register:global": "node -r dotenv/config register/register_global.js",
+    "register:guild": "node -r dotenv/config register/registerGuild.js",
+    "register:global": "node -r dotenv/config register/registerGlobal.js",
     "unregister": "node -r dotenv/config register/unregister.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
