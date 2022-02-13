@@ -1,10 +1,3 @@
-const {
-  InteractionResponseType,
-  InteractionResponseFlags,
-} = require("discord-interactions");
-const createShortLink = require("../utils/createShortLink.js");
-const getUserId = require("../utils/getUserId.js");
-
 module.exports = {
   name: "shorten",
   description: "Create a short link.",
@@ -22,6 +15,12 @@ module.exports = {
     },
   ],
   execute: async (message) => {
+    const {
+      InteractionResponseType,
+      InteractionResponseFlags,
+    } = require("discord-interactions");
+    const createShortLink = require("../utils/createShortLink.js");
+    const getUserId = require("../utils/getUserId.js");
     const url = message.data.options.find((opt) => opt.name === "url").value;
     const route = message.data.options.find(
       (opt) => opt.name === "route"

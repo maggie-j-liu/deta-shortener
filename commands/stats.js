@@ -1,19 +1,18 @@
 module.exports = {
-  name: "delete",
-  description: "Deletes a created short link.",
+  name: "stats",
+  description: "Get statistics about a short link.",
   options: [
     {
       name: "route",
       type: 3,
-      description: "The route of the short URL you want to delete.",
+      description: "The route of the short URL you want to get stats for.",
       required: true,
     },
   ],
   execute: async (message) => {
     const { InteractionResponseType } = require("discord-interactions");
-    const getUserId = require("../utils/getUserId.js");
-    const resolveRoute = require("../utils/resolveRoute.js");
-    const db = require("../utils/database.js");
+    const resolveRoute = require("../utils/resolveRoute");
+    const db = require("../utils/database");
     const route = message.data.options.find(
       (opt) => opt.name === "route"
     ).value;
@@ -27,19 +26,13 @@ module.exports = {
         },
       };
     }
-    if (link.userId !== getUserId(message)) {
-      return {
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: "You can only delete links that were created by you.",
-        },
-      };
-    }
-    await db.delete(key);
     return {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: {
-        content: `Successfully deleted ${process.env.DOMAIN}/${key}.`,
+        content: `The short link <${process.env.DOMAIN}/${key}> was created by <@${link.userId}> and has been visited ${link.clicks} times.`,
+        allowed_mentions: {
+          parse: [],
+        },
       },
     };
   },
