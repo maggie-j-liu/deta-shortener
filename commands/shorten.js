@@ -42,7 +42,7 @@ module.exports = {
     if (response.error) {
       content = `Error: ${response.error}`;
     } else {
-      content = `Linked ${response.url} to <https://src.ink/${response.slug}>`;
+      content = `Linked ${response.url} to <${process.env.DOMAIN}/${response.slug}>`;
     }
     return {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,

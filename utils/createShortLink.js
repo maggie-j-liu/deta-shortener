@@ -1,12 +1,10 @@
 const createShortLink = async (body) => {
   const { nanoid } = require("nanoid");
+  const db = require("./database.js");
   if (!body.url) {
     return { error: "Must specify an url." };
   }
 
-  const { Deta } = require("deta");
-  const deta = new Deta();
-  const db = deta.Base("links");
   if (body.slug) {
     try {
       await db.insert({
