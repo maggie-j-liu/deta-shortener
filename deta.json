@@ -1,0 +1,27 @@
+{
+  "name": "Link Shortener Discord Bot",
+  "description": "A Discord bot that shortens links through slash commands.",
+  "runtime": "nodejs14.x",
+  "env": [
+    {
+      "key": "TOKEN",
+      "description": "Your Discord bot's token, found in the \"Bot\" tab of your Discord application.",
+      "required": true
+    },
+    {
+      "key": "APPLICATION_ID",
+      "description": "Your Discord bot's application ID, found in the \"General Information\" tab of your Discord application.",
+      "required": true
+    },
+    {
+      "key": "PUBLIC_KEY",
+      "description": "Your Discord bot's public key, found in the \"General Information\" tab of your Discord application.",
+      "required": true
+    },
+    {
+      "key": "DOMAIN",
+      "description": "The domain to use for the link shortener.",
+      "required": true
+    }
+  ]
+}
