@@ -4,6 +4,6 @@ import register from "./register.js";
 const commands = getCommandsData();
 
 register(
-  `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/commands`,
+  `https://discord.com/api/v9/applications/${process.env.APPLICATION_ID}/commands`,
   Object.values(commands)
 );

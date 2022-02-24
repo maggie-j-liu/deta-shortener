@@ -9,6 +9,6 @@ for (const command of commands) {
 }
 
 register(
-  `https://discord.com/api/v8/applications/${process.env.APPLICATION_ID}/guilds/${guildId}/commands`,
+  `https://discord.com/api/v9/applications/${process.env.APPLICATION_ID}/guilds/${guildId}/commands`,
   Object.values(commands)
 );
